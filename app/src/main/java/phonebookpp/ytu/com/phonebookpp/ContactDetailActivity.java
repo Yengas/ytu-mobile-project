@@ -5,45 +5,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.query.Select;
 
-import java.util.List;
-
-import phonebookpp.ytu.com.phonebookpp.models.Contact;
-import phonebookpp.ytu.com.phonebookpp.utils.DatabaseFiller;
+import phonebookpp.ytu.com.phonebookpp.view.model.ContactViewHolder;
+import phonebookpp.ytu.com.phonebookpp.model.Contact;
 
 /**
  * Created by DARK on 1/1/2016.
  */
-public class ContactDetailActivity extends AppCompatActivity {
+public class ContactDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActiveAndroid.initialize(this, true);
-        setContentView(R.layout.activity_contact_list);
+        setContentView(R.layout.activity_contact_detail);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if(DatabaseFiller.filledBefore() == false){
-            DatabaseFiller.fill();
-        }
-        List<Contact> contacts =  new Select().from(Contact.class).execute();
-        ((ListView) this.findViewById(R.id.contact_listview)).setAdapter(new ContactAdapter(this, contacts));
-    }
+        Contact contact = (Contact) this.getIntent().getExtras().getSerializable("contact");
+        ListView listView = (ListView) this.findViewById(R.id.call_listview);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ActiveAndroid.initialize(this, true);
-        setContentView(R.layout.activity_contact_list);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        new ContactViewHolder(this.findViewById(R.id.contact_detail_fragment), this).update(contact);
+        listView.setAdapter(new CallAdapter(this, contact.getCalls()));
     }
 
     @Override
@@ -51,6 +39,11 @@ public class ContactDetailActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_contact, menu);
         return true;
+    }
+
+    @Override
+    public void onClick(View view){
+
     }
 
     @Override

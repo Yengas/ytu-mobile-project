@@ -2,12 +2,12 @@ package phonebookpp.ytu.com.phonebookpp.utils;
 
 import com.activeandroid.query.Select;
 
-import phonebookpp.ytu.com.phonebookpp.models.Contact;
-import phonebookpp.ytu.com.phonebookpp.models.ContactInfoType;
-import phonebookpp.ytu.com.phonebookpp.models.ContactNumber;
-import phonebookpp.ytu.com.phonebookpp.models.Location;
-import phonebookpp.ytu.com.phonebookpp.models.Call;
-import phonebookpp.ytu.com.phonebookpp.models.SMSMessage;
+import phonebookpp.ytu.com.phonebookpp.model.Contact;
+import phonebookpp.ytu.com.phonebookpp.model.ContactInfoType;
+import phonebookpp.ytu.com.phonebookpp.model.ContactNumber;
+import phonebookpp.ytu.com.phonebookpp.model.Location;
+import phonebookpp.ytu.com.phonebookpp.model.Call;
+import phonebookpp.ytu.com.phonebookpp.model.SMSMessage;
 import java.util.Date;
 
 /**
@@ -58,13 +58,13 @@ public class DatabaseFiller {
         yengasCall.duration = 5;
         yengasCall.outgoing = true;
         yengasCall.date = new Date();
-        yengasCall.addressee = daktarHome;
+        yengasCall.addressee = yengasMobile;
         yengasCall.save();
 
         daktarCall.duration = 5;
         daktarCall.outgoing = false;
         daktarCall.date = new Date();
-        daktarCall.addressee = yengasMobile;
+        daktarCall.addressee = daktarHome;
         daktarCall.save();
 
         SMSMessage yengasSMS = new SMSMessage(), daktarSMS = new SMSMessage();
@@ -72,13 +72,13 @@ public class DatabaseFiller {
         yengasSMS.body = "Hello";
         yengasSMS.outgoing = false;
         yengasSMS.date = new Date();
-        yengasSMS.addressee = daktarHome;
+        yengasSMS.addressee = yengasMobile;
         yengasSMS.save();
 
         daktarSMS.body = "Hello";
         daktarSMS.outgoing = true;
         daktarSMS.date = new Date();
-        daktarSMS.addressee = yengasMobile;
+        daktarSMS.addressee = daktarHome;
         daktarSMS.save();
 
     }

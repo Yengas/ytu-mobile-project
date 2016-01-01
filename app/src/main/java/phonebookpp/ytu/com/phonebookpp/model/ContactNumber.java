@@ -1,16 +1,17 @@
-package phonebookpp.ytu.com.phonebookpp.models;
+package phonebookpp.ytu.com.phonebookpp.model;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by DARK on 12/28/2015.
  */
 @Table(name = "ContactNumber")
-public class ContactNumber extends Model {
+public class ContactNumber extends Model implements Serializable {
     @Column(name = "type")
     public ContactInfoType type;
     @Column(name = "number")

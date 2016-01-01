@@ -6,36 +6,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.List;
 
-import phonebookpp.ytu.com.phonebookpp.model.Contact;
-import phonebookpp.ytu.com.phonebookpp.view.model.ContactViewHolder;
+import phonebookpp.ytu.com.phonebookpp.model.Call;
+import phonebookpp.ytu.com.phonebookpp.view.model.CallViewHolder;
 
 /**
  * Created by DARK on 1/1/2016.
  */
-public class ContactAdapter extends BaseAdapter {
-    private List<Contact> contacts = null;
+public class CallAdapter extends BaseAdapter {
+    private List<Call> calls = null;
     private Activity context;
-    private View.OnClickListener listener;
 
-    public ContactAdapter(Activity context, View.OnClickListener listener, List<Contact> contacts){
-            this.contacts = contacts;
+    public CallAdapter(Activity context, List<Call> calls){
+            this.calls = calls;
             this.context = context;
-            this.listener = listener;
     }
 
     @Override
     public int getCount(){
-        return this.contacts.size();
+        return this.calls.size();
     }
 
     @Override
     public Object getItem(int pos){
-        return this.contacts.get(pos);
+        return this.calls.get(pos);
     }
 
     @Override
@@ -47,10 +43,10 @@ public class ContactAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent){
         if(convertView == null || convertView.getTag() == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.fragment_contact, null);
-            convertView.setTag( new ContactViewHolder(convertView, listener) );
+            convertView = inflater.inflate(R.layout.fragment_call, null);
+            convertView.setTag( new CallViewHolder(convertView) );
         }
-        ((ContactViewHolder) convertView.getTag()).update((Contact) this.getItem(position));
+        ((CallViewHolder) convertView.getTag()).update((Call) this.getItem(position));
         return convertView;
     }
 

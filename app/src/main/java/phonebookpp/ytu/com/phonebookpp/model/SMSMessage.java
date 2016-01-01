@@ -1,22 +1,21 @@
-package phonebookpp.ytu.com.phonebookpp.models;
+package phonebookpp.ytu.com.phonebookpp.model;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by DARK on 12/28/2015.
  */
-@Table(name = "Call")
-public class Call extends Model {
+@Table(name = "Message")
+public class SMSMessage extends Model implements Serializable {
     @Column(name = "outgoing")
     public boolean outgoing;
-    @Column(name = "completed")
-    public boolean completed;
-    @Column(name="duration")
-    public int duration;
+    @Column(name = "body")
+    public String body;
     @Column(name = "addressee")
     public ContactNumber addressee;
     @Column(name = "date")

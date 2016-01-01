@@ -1,9 +1,10 @@
-package phonebookpp.ytu.com.phonebookpp.models;
+package phonebookpp.ytu.com.phonebookpp.model;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  * Created by DARK on 12/28/2015.
  */
 @Table(name = "Contact")
-public class Contact extends Model {
+public class Contact extends Model implements Serializable {
     @Column(name = "name")
     public String name;
     @Column(name = "surname")
