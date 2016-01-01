@@ -17,8 +17,8 @@ public class Call extends Model {
     public boolean completed;
     @Column(name="duration")
     public int duration;
-    @Column(name = "target", index = true)
-    public Number target;
+    @Column(name = "addressee")
+    public ContactNumber addressee;
     @Column(name = "date")
     public Date date;
 }

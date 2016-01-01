@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:weightSum="100">
     <LinearLayout
-        android:layout_width="0"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_weight="80">
@@ -29,27 +29,38 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/call_missed"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/contact_missed_call"
-                android:text="2"/>
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:adjustViewBounds="true"
                 android:src="@drawable/email"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/contact_new_messages"
                 android:text="1"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/phone"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/contact_calls"
+                android:text="1"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/call_missed"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/contact_missed_calls"
+                android:text="2"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/contact_location_list"
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="25dp"
@@ -64,20 +75,20 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="0"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="100"
         android:layout_weight="20">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="0"
+            android:layout_height="0dp"
             android:layout_weight="50"
             android:adjustViewBounds="true"
             android:src="@drawable/phone"/>
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="0"
+            android:layout_height="0dp"
             android:layout_weight="50"
             android:adjustViewBounds="true"
             android:src="@drawable/chat"/>

@@ -15,6 +15,6 @@ public class Location extends Model {
     public double longtitude;
     @Column(name = "latitude")
     public double latitude;
-    @Column(name = "holder", index = true)
+    @Column(name = "holder")
     public Contact holder;
 }

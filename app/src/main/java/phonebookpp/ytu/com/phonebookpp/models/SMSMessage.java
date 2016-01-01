@@ -15,8 +15,8 @@ public class SMSMessage extends Model {
     public boolean outgoing;
     @Column(name = "body")
     public String body;
-    @Column(name = "target", index = true)
-    public Number target;
+    @Column(name = "addressee")
+    public ContactNumber addressee;
     @Column(name = "date")
     public Date date;
 }

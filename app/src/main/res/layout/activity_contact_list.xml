@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="phonebookpp.ytu.com.phonebookpp.ContactActivity">
+    tools:context=".ContactListActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
@@ -22,6 +22,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_contact"/>
+    <include layout="@layout/content_contact_list"/>
 
 </android.support.design.widget.CoordinatorLayout>

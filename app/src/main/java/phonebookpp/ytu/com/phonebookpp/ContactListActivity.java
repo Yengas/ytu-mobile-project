@@ -1,31 +1,36 @@
 package phonebookpp.ytu.com.phonebookpp;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Select;
 
+import java.util.List;
+
+import phonebookpp.ytu.com.phonebookpp.models.Contact;
 import phonebookpp.ytu.com.phonebookpp.utils.DatabaseFiller;
 
-public class ContactActivity extends AppCompatActivity {
+public class ContactListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActiveAndroid.initialize(this);
-        setContentView(R.layout.activity_contact);
+        ActiveAndroid.initialize(this, true);
+        setContentView(R.layout.activity_contact_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if(DatabaseFiller.filledBefore() == false)
+        if(DatabaseFiller.filledBefore() == false){
             DatabaseFiller.fill();
+        }
+        List<Contact> contacts =  new Select().from(Contact.class).execute();
+        ((ListView) this.findViewById(R.id.contact_listview)).setAdapter(new ContactAdapter(this, contacts));
     }
 
     @Override

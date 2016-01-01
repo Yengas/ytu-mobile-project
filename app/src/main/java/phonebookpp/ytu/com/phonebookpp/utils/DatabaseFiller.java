@@ -6,6 +6,9 @@ import phonebookpp.ytu.com.phonebookpp.models.Contact;
 import phonebookpp.ytu.com.phonebookpp.models.ContactInfoType;
 import phonebookpp.ytu.com.phonebookpp.models.ContactNumber;
 import phonebookpp.ytu.com.phonebookpp.models.Location;
+import phonebookpp.ytu.com.phonebookpp.models.Call;
+import phonebookpp.ytu.com.phonebookpp.models.SMSMessage;
+import java.util.Date;
 
 /**
  * Created by DARK on 12/28/2015.
@@ -49,6 +52,35 @@ public class DatabaseFiller {
         daktarHome.number = "+904244244242";
         daktarHome.holder = daktar;
         daktarHome.save();
+
+        Call yengasCall = new Call(), daktarCall = new Call();
+
+        yengasCall.duration = 5;
+        yengasCall.outgoing = true;
+        yengasCall.date = new Date();
+        yengasCall.addressee = daktarHome;
+        yengasCall.save();
+
+        daktarCall.duration = 5;
+        daktarCall.outgoing = false;
+        daktarCall.date = new Date();
+        daktarCall.addressee = yengasMobile;
+        daktarCall.save();
+
+        SMSMessage yengasSMS = new SMSMessage(), daktarSMS = new SMSMessage();
+
+        yengasSMS.body = "Hello";
+        yengasSMS.outgoing = false;
+        yengasSMS.date = new Date();
+        yengasSMS.addressee = daktarHome;
+        yengasSMS.save();
+
+        daktarSMS.body = "Hello";
+        daktarSMS.outgoing = true;
+        daktarSMS.date = new Date();
+        daktarSMS.addressee = yengasMobile;
+        daktarSMS.save();
+
     }
 
     public static boolean filledBefore(){
