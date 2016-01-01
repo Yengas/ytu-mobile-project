@@ -1,5 +1,6 @@
 package phonebookpp.ytu.com.phonebookpp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
 
@@ -37,13 +39,31 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_contact, menu);
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
         return true;
     }
 
     @Override
     public void onClick(View view){
+        Contact contact = (Contact) view.getTag();
 
+        switch(view.getId()){
+            case R.id.contact_call_button:{
+                Toast.makeText(this, "Make the call! With number selection!", Toast.LENGTH_LONG).show();
+                //TODO: start call activity with dialog selection of numbers.
+                break;
+            }
+            case R.id.contact_message_button:{
+                Toast.makeText(this, "MSG button clicked!", Toast.LENGTH_LONG).show();
+                Bundle bundle = new Bundle();
+                Intent intent = new Intent(this, MessagingActivity.class);
+
+                bundle.putSerializable("contact", contact);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
+            }
+        }
     }
 
     @Override
@@ -54,7 +74,11 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.detail_menu_edit) {
+            return true;
+        }else if(id == R.id.detail_menu_add_location){
+            return true;
+        }else if(id == R.id.detail_menu_add_number){
             return true;
         }
 

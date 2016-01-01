@@ -53,6 +53,10 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
             }
             case R.id.contact_message_button:{
                 Toast.makeText(this, "MSG button clicked!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, MessagingActivity.class);
+
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             }
         }
@@ -61,7 +65,7 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_contact, menu);
+        getMenuInflater().inflate(R.menu.menu_list, menu);
         return true;
     }
 
@@ -73,7 +77,7 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.list_menu_add) {
             return true;
         }
 
