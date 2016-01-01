@@ -83,7 +83,7 @@ public class Contact extends Model {
                 outgoingCallDuration += call.duration;
             else
                 incomingCallDuration += call.duration;
-            if(call.duration == 0) missingCalls += 1;
+            if(call.completed == false) missingCalls += 1;
         }
 
         // 1 Mysql query if we were to use sql

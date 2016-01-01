@@ -44,7 +44,7 @@ public class ContactAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent){
         if(convertView == null || convertView.getTag() == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.contact_view, null);
+            convertView = inflater.inflate(R.layout.fragment_contact, null);
             convertView.setTag( new ContactViewHolder(convertView) );
         }
         ((ContactViewHolder) convertView.getTag()).update((Contact) this.getItem(position));
