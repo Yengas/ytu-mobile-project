@@ -286,7 +286,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
 
                                 Object number = new Select().from(ContactNumber.class).where("holder = ? AND type = ? AND number = ?", contact.getId(), ContactInfoType.valueOf(parts[0]), parts[1]).executeSingle();
                                 if(number != null) {
-                                    ((ContactNumber)number).deletex();
+                                    ((ContactNumber)number).delete();
                                     updateActivityView();
 
                                     Toast.makeText(getApplicationContext(),
@@ -357,8 +357,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
             alertDialog.setPositiveButton("YES",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            contact.deleted = true;
-                            contact.save();
+                            contact.delete();
 
                             finish();
                             Toast.makeText(getApplicationContext(), "Removed the contact.", Toast.LENGTH_SHORT).show();

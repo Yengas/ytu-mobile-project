@@ -42,7 +42,7 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void update(){
-        List<Contact> contacts =  new Select().from(Contact.class).where("deleted = ?", false).execute();
+        List<Contact> contacts =  new Select().from(Contact.class).execute();
         ((ListView) this.findViewById(R.id.contact_listview)).setAdapter(new ContactAdapter(this, this, contacts));
     }
 
