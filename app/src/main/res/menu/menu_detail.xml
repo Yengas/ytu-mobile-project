@@ -15,4 +15,16 @@
         android:title="@string/detail_menu_add_location"
         android:orderInCategory="3"
         app:showAsAction="never" />
+    <item android:id="@+id/detail_menu_delete_number"
+        android:title="@string/detail_menu_delete_number"
+        android:orderInCategory="4"
+        app:showAsAction="never" />
+    <item android:id="@+id/detail_menu_delete_location"
+        android:title="@string/detail_menu_delete_location"
+        android:orderInCategory="4"
+        app:showAsAction="never" />
+    <item android:id="@+id/detail_menu_delete_contact"
+        android:title="@string/detail_menu_delete_contact"
+        android:orderInCategory="4"
+        app:showAsAction="never" />
 </menu>

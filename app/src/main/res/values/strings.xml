@@ -6,6 +6,9 @@
     <string name="detail_menu_edit">Edit Contact</string>
     <string name="detail_menu_add_number">Add Number</string>
     <string name="detail_menu_add_location">Add Location</string>
+    <string name="detail_menu_delete_number">Delete Number</string>
+    <string name="detail_menu_delete_location">Delete Number</string>
+    <string name="detail_menu_delete_contact">Delete Contact</string>
     <string name="messaging_activity_title">SMS Messaging</string>
     <string name="messaging_placeholder">Your Message</string>
     <string name="messaging_send_button">Send</string>
