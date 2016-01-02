@@ -19,15 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.database.Cursor;
 import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import phonebookpp.ytu.com.phonebookpp.model.Contact;
@@ -37,7 +36,7 @@ import phonebookpp.ytu.com.phonebookpp.model.Location;
 import phonebookpp.ytu.com.phonebookpp.view.model.ContactViewHolder;
 
 /**
- * Created by DARK on 1/1/2016.
+ * Created by DARK on 1/1/3016.
  */
 public class ContactDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private ContactViewHolder contactDetails;
@@ -132,6 +131,68 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.detail_menu_edit) {
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+                // Name
+                LinearLayout layout_name = new LinearLayout(this);
+                layout_name.setOrientation(LinearLayout.HORIZONTAL);
+                    TextView label_name = new TextView(this);
+                    label_name.setText("Name: ");
+                layout_name.addView(label_name);
+                    final EditText input_name = new EditText(this);
+                    input_name.setText(contact.name);
+                    input_name.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
+                layout_name.addView(input_name);
+            layout.addView(layout_name);
+
+                // Surname
+                LinearLayout layout_surname = new LinearLayout(this);
+                layout_surname.setOrientation(LinearLayout.HORIZONTAL);
+                    TextView label_surname = new TextView(this);
+                    label_surname.setText("Surname: ");
+                layout_surname.addView(label_surname);
+                    final EditText input_surname = new EditText(this);
+                    input_surname.setText(contact.surname);
+                    input_surname.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
+                layout_surname.addView(input_surname);
+            layout.addView(layout_surname);
+
+                // Email
+                LinearLayout layout_email = new LinearLayout(this);
+                layout_email.setOrientation(LinearLayout.HORIZONTAL);
+                    TextView label_email = new TextView(this);
+                    label_email.setText("Email: ");
+                layout_email.addView(label_email);
+                    final EditText input_email = new EditText(this);
+                    input_email.setText(contact.email);
+                    input_email.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
+                layout_email.addView(input_email);
+            layout.addView(layout_email);
+
+            // Setting Dialog
+            android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(this);
+            alertDialog.setTitle(R.string.detail_menu_edit);
+            alertDialog.setView(layout);
+            alertDialog.setPositiveButton("APPLY",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            String name = input_name.getText().toString();
+                            String surname = input_surname.getText().toString();
+                            String email = input_email.getText().toString();
+
+                            if (name.compareTo("") != 0) {
+                                contact.name = name;
+                                contact.surname = surname;
+                                contact.email = email;
+                                contact.save();
+                                updateActivityView();
+
+                                Toast.makeText(getApplicationContext(), "Edited the contact \"" + contact.name + " " + contact.surname + "\".", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+            alertDialog.show(); // Showing Alert Message
             return true;
         }else if(id == R.id.detail_menu_add_location){
             LinearLayout layout = new LinearLayout(this);
@@ -159,7 +220,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                     layout_latitude.addView(label_latitude);
                         final EditText input_latitude = new EditText(this);
                         input_latitude.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-                        input_latitude.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+                        input_latitude.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
                     layout_latitude.addView(input_latitude);
                 layout.addView(layout_latitude);
 
@@ -171,7 +232,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                 layout_longtitude.addView(label_longtitude);
                     final EditText input_longtitude = new EditText(this);
                     input_longtitude.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-                    input_longtitude.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+                    input_longtitude.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
                 layout_longtitude.addView(input_longtitude);
             layout.addView(layout_longtitude);
 
@@ -228,7 +289,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                 layout_number.addView(label_number);
                     final EditText input_number = new EditText(this);
                     input_number.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-                    input_number.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+                    input_number.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
                 layout_number.addView(input_number);
             layout.addView(layout_number);
 
@@ -260,6 +321,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
         }else if(id == R.id.detail_menu_delete_number){
             LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
+
             // Info Type
             LinearLayout layout_info_type = new LinearLayout(this);
             layout_info_type.setOrientation(LinearLayout.HORIZONTAL);

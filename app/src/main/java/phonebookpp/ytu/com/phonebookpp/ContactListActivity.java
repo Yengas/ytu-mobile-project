@@ -144,7 +144,7 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
 
             // Setting Dialog
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-            alertDialog.setTitle("Add Number");
+            alertDialog.setTitle(R.string.list_menu_add);
             alertDialog.setView(layout);
             alertDialog.setPositiveButton("ADD",
                     new DialogInterface.OnClickListener() {
