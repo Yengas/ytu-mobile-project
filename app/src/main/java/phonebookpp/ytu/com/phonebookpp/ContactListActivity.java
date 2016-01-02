@@ -16,6 +16,7 @@ import com.activeandroid.query.Select;
 import java.util.List;
 
 import phonebookpp.ytu.com.phonebookpp.model.Contact;
+import phonebookpp.ytu.com.phonebookpp.model.Location;
 import phonebookpp.ytu.com.phonebookpp.utils.DatabaseFiller;
 
 public class ContactListActivity extends AppCompatActivity implements View.OnClickListener {
@@ -38,26 +39,38 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View view){
-        Contact contact = (Contact) view.getTag();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("contact", contact);
+        if(view.getTag() instanceof Contact) {
+            Contact contact = (Contact) view.getTag();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("contact", contact);
 
-        switch(view.getId()){
-            case R.id.contact_call_button:{
-                Toast.makeText(this, "Call button clicked!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(this, ContactDetailActivity.class);
+            switch (view.getId()) {
+                case R.id.contact_call_button: {
+                    Toast.makeText(this, "Call button clicked!", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(this, ContactDetailActivity.class);
 
-                intent.putExtras(bundle);
-                startActivity(intent);
-                break;
+                    intent.putExtras(bundle);
+                    intent.putExtra("contact_id", contact.getId());
+                    startActivity(intent);
+                    break;
+                }
+                case R.id.contact_message_button: {
+                    Toast.makeText(this, "MSG button clicked!", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(this, MessagingActivity.class);
+
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    break;
+                }
             }
-            case R.id.contact_message_button:{
-                Toast.makeText(this, "MSG button clicked!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(this, MessagingActivity.class);
+        }else if(view.getTag() instanceof Location){
+            Location location = (Location) view.getTag();
 
-                intent.putExtras(bundle);
-                startActivity(intent);
-                break;
+            switch(view.getId()) {
+                case R.id.contact_location: {
+                    Toast.makeText(this, "Location clicked! " + location.latitude + "," + location.longtitude, Toast.LENGTH_LONG).show();
+                    break;
+                }
             }
         }
     }

@@ -33,6 +33,8 @@ import phonebookpp.ytu.com.phonebookpp.view.model.ContactViewHolder;
  * Created by DARK on 1/1/2016.
  */
 public class ContactDetailActivity extends AppCompatActivity implements View.OnClickListener {
+    private ContactViewHolder contactDetails;
+    private Contact contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +45,12 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Contact contact = (Contact) this.getIntent().getExtras().getSerializable("contact");
+        Contact contact = (Contact) Contact.load(Contact.class, this.getIntent().getLongExtra("contact_id", -1));
         ListView listView = (ListView) this.findViewById(R.id.call_listview);
+        this.contactDetails = new ContactViewHolder(this, this.findViewById(R.id.contact_detail_fragment), this);
+        this.contact = contact;
 
-        new ContactViewHolder(this.findViewById(R.id.contact_detail_fragment), this).update(contact);
+        contactDetails.update(this, contact);
         listView.setAdapter(new CallAdapter(this, contact.getCalls()));
     }
 
@@ -59,23 +63,34 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View view){
-        Contact contact = (Contact) view.getTag();
+        if(view.getTag() instanceof Contact) {
+            Contact contact = (Contact) view.getTag();
 
-        switch(view.getId()){
-            case R.id.contact_call_button:{
-                Toast.makeText(this, "Make the call! With number selection!", Toast.LENGTH_LONG).show();
-                //TODO: start call activity with dialog selection of numbers.
-                break;
+            switch (view.getId()) {
+                case R.id.contact_call_button: {
+                    Toast.makeText(this, "Make the call! With number selection!", Toast.LENGTH_LONG).show();
+                    //TODO: start call activity with dialog selection of numbers.
+                    break;
+                }
+                case R.id.contact_message_button: {
+                    Toast.makeText(this, "MSG button clicked!", Toast.LENGTH_LONG).show();
+                    Bundle bundle = new Bundle();
+                    Intent intent = new Intent(this, MessagingActivity.class);
+
+                    bundle.putSerializable("contact", contact);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    break;
+                }
             }
-            case R.id.contact_message_button:{
-                Toast.makeText(this, "MSG button clicked!", Toast.LENGTH_LONG).show();
-                Bundle bundle = new Bundle();
-                Intent intent = new Intent(this, MessagingActivity.class);
+        }else if(view.getTag() instanceof Location){
+            Location location = (Location) view.getTag();
 
-                bundle.putSerializable("contact", contact);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                break;
+            switch(view.getId()) {
+                case R.id.contact_location: {
+                    Toast.makeText(this, "Location clicked! " + location.latitude + "," + location.longtitude, Toast.LENGTH_LONG).show();
+                    break;
+                }
             }
         }
     }
@@ -86,8 +101,6 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        final Contact contact = (Contact) this.getIntent().getExtras().getSerializable("contact");
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.detail_menu_edit) {
@@ -110,6 +123,18 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                 layout_info_type.addView(input_info_type);
             layout.addView(layout_info_type);
 
+            // Latitude
+                LinearLayout layout_latitude = new LinearLayout(this);
+                    layout_latitude.setOrientation(LinearLayout.HORIZONTAL);
+                        TextView label_latitude = new TextView(this);
+                        label_latitude.setText("Latitude: ");
+                    layout_latitude.addView(label_latitude);
+                        final EditText input_latitude = new EditText(this);
+                        input_latitude.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+                        input_latitude.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+                    layout_latitude.addView(input_latitude);
+                layout.addView(layout_latitude);
+
                 // Longtitude
                 LinearLayout layout_longtitude = new LinearLayout(this);
                 layout_longtitude.setOrientation(LinearLayout.HORIZONTAL);
@@ -122,18 +147,6 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                 layout_longtitude.addView(input_longtitude);
             layout.addView(layout_longtitude);
 
-                // Latitude
-                LinearLayout layout_latitude = new LinearLayout(this);
-                layout_latitude.setOrientation(LinearLayout.HORIZONTAL);
-                    TextView label_latitude = new TextView(this);
-                    label_latitude.setText("Latitude: ");
-                layout_latitude.addView(label_latitude);
-                    final EditText input_latitude = new EditText(this);
-                    input_latitude.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-                    input_latitude.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
-                layout_latitude.addView(input_latitude);
-            layout.addView(layout_latitude);
-
             // Setting Dialog
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
             alertDialog.setTitle("Add Location");
@@ -143,7 +156,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                         public void onClick(DialogInterface dialog, int which) {
                             String longtitude = input_longtitude.getText().toString();
                             String latitude = input_latitude.getText().toString();
-                            if (longtitude.compareTo("") == 0 && latitude.compareTo("") == 0) {
+                            if (longtitude.compareTo("") != 0 && latitude.compareTo("") != 0) {
                                 Location loc = new Location();
                                 loc.holder = contact;
                                 loc.longtitude = Double.parseDouble(longtitude);
@@ -151,8 +164,10 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                                 loc.type = (ContactInfoType) input_info_type.getSelectedItem();
                                 loc.save();
 
-                                Toast.makeText(getApplicationContext(),
-                                        "Location saved for " + contact.name + " " + contact.surname + ".", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Location saved for " + contact.name + " " + contact.surname + ".", Toast.LENGTH_SHORT).show();
+                                contact.setCache(false); // Reset cache
+                                contact.setCache(true);
+                                contactDetails.update(ContactDetailActivity.this, contact);
                             }
                         }
                     });
@@ -209,6 +224,9 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
 
                                 Toast.makeText(getApplicationContext(),
                                         "Phone number saved for " + contact.name + " " + contact.surname + ".", Toast.LENGTH_SHORT).show();
+                                contact.setCache(false); // Reset cache
+                                contact.setCache(true);
+                                contactDetails.update(ContactDetailActivity.this, contact);
                             }
                         }
                     });
