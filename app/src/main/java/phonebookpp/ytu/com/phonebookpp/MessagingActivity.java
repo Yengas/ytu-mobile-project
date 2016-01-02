@@ -29,7 +29,7 @@ public class MessagingActivity extends AppCompatActivity implements View.OnClick
         ActiveAndroid.initialize(this, true);
         setContentView(R.layout.activity_messaging);
 
-        Contact contact = (Contact) this.getIntent().getExtras().getSerializable("contact");
+        Contact contact = (Contact) Contact.load(Contact.class, this.getIntent().getLongExtra("contact_id", -1));
         this.messageListView = (ListView) this.findViewById(R.id.messaging_listview);
 
         messageListView.setAdapter(this.messagingAdapter = new MessageAdapter(this, contact.getMessages()));

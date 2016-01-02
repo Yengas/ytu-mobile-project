@@ -19,12 +19,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.database.Cursor;
 import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import phonebookpp.ytu.com.phonebookpp.model.Contact;
@@ -91,6 +94,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
 
                     bundle.putSerializable("contact", contact);
                     intent.putExtras(bundle);
+                    intent.putExtra("contact_id", contact.getId());
                     startActivity(intent);
                     break;
                 }
@@ -280,12 +284,15 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                                 String line = (String) input_info_type.getSelectedItem();
                                 String[] parts = line.split(" - ");
 
-                                new Delete().from(Location.class).where("holder = ? AND type = ? AND number = ?", contact, parts[0], parts[1]).execute();
+                                Object number = new Select().from(ContactNumber.class).where("holder = ? AND type = ? AND number = ?", contact.getId(), ContactInfoType.valueOf(parts[0]), parts[1]).executeSingle();
+                                if(number != null) {
+                                    ((ContactNumber)number).deletex();
+                                    updateActivityView();
 
-                                updateActivityView();
-
-                                Toast.makeText(getApplicationContext(),
-                                        "Removed the phone number of " + contact.name + " " + contact.surname + ".", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(),
+                                            "Removed the phone number of " + contact.name + " " + contact.surname + ".", Toast.LENGTH_SHORT).show();
+                                }else
+                                    Toast.makeText(ContactDetailActivity.this, "DB fail!", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -319,8 +326,15 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                                 String line = (String) input_info_type.getSelectedItem();
                                 String[] parts = line.split(" - ");
                                 String[] subline =  parts[1].split(",");
+                                //Toast.makeText(ContactDetailActivity.this, line + Arrays.toString(parts) + Arrays.toString(subline), Toast.LENGTH_LONG).show();
+                                /*Cursor cursor = ActiveAndroid.getDatabase().rawQuery("PRAGMA table_info(ContactNumber)", null);
+                                cursor.moveToFirst();
 
-                                new Delete().from(ContactNumber.class).where("holder = ? AND type = ? AND latitude = ? AND longitude = ?", contact, parts[0], subline[1], subline[2]).execute();
+                                do{
+                                    Toast.makeText(ContactDetailActivity.this, cursor.getString(1) + " - wtf", Toast.LENGTH_LONG).show();
+                                }while(cursor.moveToNext());
+                                Toast.makeText(ContactDetailActivity.this, " this is weird... - wtf", Toast.LENGTH_LONG);*/ 
+                                new Delete().from(Location.class).where("holder = ? AND type = ? AND latitude = ? AND longtitude = ?", contact.getId(), ContactInfoType.valueOf(parts[0]), Double.parseDouble(subline[0]), Double.parseDouble(subline[1])).execute();
 
                                 updateActivityView();
 
@@ -343,9 +357,10 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
             alertDialog.setPositiveButton("YES",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            contact.delete();
+                            contact.deleted = true;
+                            contact.save();
 
-                            updateActivityView();
+                            finish();
                             Toast.makeText(getApplicationContext(), "Removed the contact.", Toast.LENGTH_SHORT).show();
                         }
                     });

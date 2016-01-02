@@ -19,6 +19,8 @@ public class Contact extends Model implements Serializable {
     public String surname;
     @Column(name = "email")
     public String email;
+    @Column(name = "deleted")
+    public boolean deleted = false;
 
     public int incomingCallDuration, outgoingCallDuration, missingCalls, sentMessages, recievedMessages;
 

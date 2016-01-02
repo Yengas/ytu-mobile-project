@@ -39,8 +39,17 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
         if(DatabaseFiller.filledBefore() == false){
             DatabaseFiller.fill();
         }
-        List<Contact> contacts =  new Select().from(Contact.class).execute();
+    }
+
+    public void update(){
+        List<Contact> contacts =  new Select().from(Contact.class).where("deleted = ?", false).execute();
         ((ListView) this.findViewById(R.id.contact_listview)).setAdapter(new ContactAdapter(this, this, contacts));
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        update();
     }
 
     @Override
@@ -65,6 +74,7 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
                     Intent intent = new Intent(this, MessagingActivity.class);
 
                     intent.putExtras(bundle);
+                    intent.putExtra("contact_id", contact.getId());
                     startActivity(intent);
                     break;
                 }
