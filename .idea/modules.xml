@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PhonebookPP.iml" filepath="$PROJECT_DIR$/PhonebookPP.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ytu-mobile-project.iml" filepath="$PROJECT_DIR$/ytu-mobile-project.iml" />
     </modules>
   </component>
 </project>
