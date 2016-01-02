@@ -1,5 +1,9 @@
 package phonebookpp.ytu.com.phonebookpp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +26,9 @@ import phonebookpp.ytu.com.phonebookpp.model.Contact;
 public class MessagingActivity extends AppCompatActivity implements View.OnClickListener {
     private ListView messageListView;
     private MessageAdapter messagingAdapter;
+    private BroadcastReceiver receiver;
+    private IntentFilter filter;
+    private Contact contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +36,39 @@ public class MessagingActivity extends AppCompatActivity implements View.OnClick
         ActiveAndroid.initialize(this, true);
         setContentView(R.layout.activity_messaging);
 
-        Contact contact = (Contact) Contact.load(Contact.class, this.getIntent().getLongExtra("contact_id", -1));
+        this.contact = (Contact) Contact.load(Contact.class, this.getIntent().getLongExtra("contact_id", -1));
         this.messageListView = (ListView) this.findViewById(R.id.messaging_listview);
 
-        messageListView.setAdapter(this.messagingAdapter = new MessageAdapter(this, contact.getMessages()));
+        this.update();
         ((Button) this.findViewById(R.id.messaging_send_button)).setOnClickListener(this);
         ((TextView) this.findViewById(R.id.messaging_contact_name)).setText(contact.name + " " + contact.surname);
+
+        filter = new IntentFilter();
+        filter.addAction("android.provider.Telephony.SMS_RECEIVED");
+        filter.setPriority(998);
+
+        receiver = new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent){
+                update();
+            }
+        };
+    }
+
+    public void update(){
+        messageListView.setAdapter(this.messagingAdapter = new MessageAdapter(this, contact.getMessages()));
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        this.registerReceiver(receiver, filter);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        this.unregisterReceiver(receiver);
     }
 
     @Override
