@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Delete;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -172,7 +173,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
 
             // Setting Dialog
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-            alertDialog.setTitle("Add Location");
+            alertDialog.setTitle(R.string.detail_menu_add_location);
             alertDialog.setView(layout);
             alertDialog.setPositiveButton("ADD",
                     new DialogInterface.OnClickListener() {
@@ -229,7 +230,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
 
             // Setting Dialog
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-            alertDialog.setTitle("Add Number");
+            alertDialog.setTitle(R.string.detail_menu_add_number);
             alertDialog.setView(layout);
             alertDialog.setPositiveButton("ADD",
                     new DialogInterface.OnClickListener() {
@@ -252,6 +253,106 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
 
             alertDialog.show(); // Showing Alert Message
             return true;
+        }else if(id == R.id.detail_menu_delete_number){
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            // Info Type
+            LinearLayout layout_info_type = new LinearLayout(this);
+            layout_info_type.setOrientation(LinearLayout.HORIZONTAL);
+            TextView label_info_type = new TextView(this);
+            label_info_type.setText("Number: ");
+            layout_info_type.addView(label_info_type);
+            final Spinner input_info_type = getSpinner(this, contact, ContactNumber.class);
+            if(input_info_type.getAdapter().getCount() == 0){
+                Toast.makeText(getApplicationContext(), "There is not any phone number entry to delete.", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                layout_info_type.addView(input_info_type);
+                layout.addView(layout_info_type);
+
+                // Setting Dialog
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                alertDialog.setTitle(R.string.detail_menu_delete_number);
+                alertDialog.setView(layout);
+                alertDialog.setPositiveButton("DELETE",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String line = (String) input_info_type.getSelectedItem();
+                                String[] parts = line.split(" - ");
+
+                                new Delete().from(Location.class).where("holder = ? AND type = ? AND number = ?", contact, parts[0], parts[1]).execute();
+
+                                updateActivityView();
+
+                                Toast.makeText(getApplicationContext(),
+                                        "Removed the phone number of " + contact.name + " " + contact.surname + ".", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                alertDialog.show(); // Showing Alert Message
+            }
+            return true;
+        }else if(id == R.id.detail_menu_delete_location){
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            // Info Type
+            LinearLayout layout_info_type = new LinearLayout(this);
+            layout_info_type.setOrientation(LinearLayout.HORIZONTAL);
+            TextView label_info_type = new TextView(this);
+            label_info_type.setText("Location: ");
+            layout_info_type.addView(label_info_type);
+            final Spinner input_info_type = getSpinner(this, contact, Location.class);
+            if(input_info_type.getAdapter().getCount() == 0){
+                Toast.makeText(getApplicationContext(), "There is not any location entry to delete.", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                layout_info_type.addView(input_info_type);
+                layout.addView(layout_info_type);
+
+                // Setting Dialog
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                alertDialog.setTitle(R.string.detail_menu_delete_location);
+                alertDialog.setView(layout);
+                alertDialog.setPositiveButton("DELETE",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String line = (String) input_info_type.getSelectedItem();
+                                String[] parts = line.split(" - ");
+                                String[] subline =  parts[1].split(",");
+
+                                new Delete().from(ContactNumber.class).where("holder = ? AND type = ? AND latitude = ? AND longitude = ?", contact, parts[0], subline[1], subline[2]).execute();
+
+                                updateActivityView();
+
+                                Toast.makeText(getApplicationContext(),
+                                        "Removed the location of " + contact.name + " " + contact.surname + ".", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                alertDialog.show(); // Showing Alert Message
+            }
+            return true;
+        }else if(id == R.id.detail_menu_delete_contact){
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+
+            // Setting Dialog
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            alertDialog.setTitle(R.string.detail_menu_delete_contact);
+            alertDialog.setMessage("Are you sure to remove " + contact.name + " " + contact.surname + "?");
+            alertDialog.setView(layout);
+            alertDialog.setPositiveButton("YES",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            contact.delete();
+
+                            updateActivityView();
+                            Toast.makeText(getApplicationContext(), "Removed the contact.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+            alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int which) {} });
+            alertDialog.show(); // Showing Alert Message
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -266,7 +367,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
         }
         else if(cls == Location.class){
             List<Location> list = contact.getLocations();
-            for(Location it : list) spinnerArray.add(it.type + " - " + it.longtitude + "," + it.latitude);
+            for(Location it : list) spinnerArray.add(it.type + " - " + it.latitude + "," + it.longtitude);
         }
 
         Spinner spinner = new Spinner(context);
