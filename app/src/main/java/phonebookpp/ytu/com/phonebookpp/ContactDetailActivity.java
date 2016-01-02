@@ -3,6 +3,7 @@ package phonebookpp.ytu.com.phonebookpp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +37,7 @@ import phonebookpp.ytu.com.phonebookpp.view.model.ContactViewHolder;
  */
 public class ContactDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private ContactViewHolder contactDetails;
+    private ListView callListView;
     private Contact contact;
 
     @Override
@@ -48,12 +50,9 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
         setSupportActionBar(toolbar);
 
         Contact contact = (Contact) Contact.load(Contact.class, this.getIntent().getLongExtra("contact_id", -1));
-        ListView listView = (ListView) this.findViewById(R.id.call_listview);
+        callListView = (ListView) this.findViewById(R.id.call_listview);
         this.contactDetails = new ContactViewHolder(this, this.findViewById(R.id.contact_detail_fragment), this);
         this.contact = contact;
-
-        contactDetails.update(this, contact);
-        listView.setAdapter(new CallAdapter(this, contact.getCalls()));
     }
 
     @Override
@@ -70,8 +69,18 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
 
             switch (view.getId()) {
                 case R.id.contact_call_button: {
-                    Toast.makeText(this, "Make the call! With number selection!", Toast.LENGTH_LONG).show();
-                    //TODO: start call activity with dialog selection of numbers.
+                    final Spinner spinner = ContactDetailActivity.getSpinner(this, contact, ContactNumber.class);
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                    alertDialog.setTitle("Make call");
+                    alertDialog.setView(spinner);
+                    alertDialog.setPositiveButton("CALL", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Intent.ACTION_CALL);
+                            intent.setData(Uri.parse("tel:" + ((String) spinner.getSelectedItem()).split("-")[1].trim()));
+                            startActivity(intent);
+                        }
+                    });
+                    alertDialog.show();
                     break;
                 }
                 case R.id.contact_message_button: {
@@ -95,6 +104,18 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                 }
             }
         }
+    }
+
+    public void updateActivityView(){
+        contactDetails.update(ContactDetailActivity.this, contact);
+        callListView.setAdapter(new CallAdapter(this, contact.getCalls()));
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        updateActivityView();
     }
 
     @Override
@@ -167,9 +188,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                                 loc.save();
 
                                 Toast.makeText(getApplicationContext(), "Location saved for " + contact.name + " " + contact.surname + ".", Toast.LENGTH_SHORT).show();
-                                contact.setCache(false); // Reset cache
-                                contact.setCache(true);
-                                contactDetails.update(ContactDetailActivity.this, contact);
+                                updateActivityView();
                             }
                         }
                     });
@@ -226,9 +245,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
 
                                 Toast.makeText(getApplicationContext(),
                                         "Phone number saved for " + contact.name + " " + contact.surname + ".", Toast.LENGTH_SHORT).show();
-                                contact.setCache(false); // Reset cache
-                                contact.setCache(true);
-                                contactDetails.update(ContactDetailActivity.this, contact);
+                                updateActivityView();
                             }
                         }
                     });
