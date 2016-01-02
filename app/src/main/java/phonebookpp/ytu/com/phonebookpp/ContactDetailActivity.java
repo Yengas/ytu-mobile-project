@@ -1,5 +1,6 @@
 package phonebookpp.ytu.com.phonebookpp;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.activeandroid.ActiveAndroid;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import phonebookpp.ytu.com.phonebookpp.model.Contact;
 import phonebookpp.ytu.com.phonebookpp.model.ContactInfoType;
@@ -218,5 +220,22 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static Spinner getSpinner(Context context, Contact contact, Class<?> cls){
+        ArrayList<String> spinnerArray = new ArrayList<>();
+
+        if(cls == ContactNumber.class){
+            List<ContactNumber> list = contact.getNumbers();
+            for(ContactNumber it : list) spinnerArray.add(it.type + " - " + it.number);
+        }
+        else if(cls == Location.class){
+            List<Location> list = contact.getLocations();
+            for(Location it : list) spinnerArray.add(it.type + " - " + it.longtitude + "," + it.latitude);
+        }
+
+        Spinner spinner = new Spinner(context);
+        spinner.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, spinnerArray));
+        return spinner;
     }
 }
