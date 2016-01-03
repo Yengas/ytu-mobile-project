@@ -27,6 +27,7 @@ import phonebookpp.ytu.com.phonebookpp.utils.DatabaseFiller;
 
 public class ContactListActivity extends AppCompatActivity implements View.OnClickListener {
 
+    //TODO: check for missing call records, since we're registering to the content observer with the
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
