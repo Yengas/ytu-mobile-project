@@ -1,13 +1,10 @@
 package phonebookpp.ytu.com.phonebookpp;
 
-<<<<<<< HEAD
 import android.content.DialogInterface;
-=======
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
->>>>>>> origin/master
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -36,15 +33,11 @@ import phonebookpp.ytu.com.phonebookpp.model.SMSMessage;
 public class MessagingActivity extends AppCompatActivity implements View.OnClickListener {
     private ListView messageListView;
     private MessageAdapter messagingAdapter;
-<<<<<<< HEAD
     private EditText my_message;
-    Contact contact;
     ContactNumber phoneNumber;
-=======
     private BroadcastReceiver receiver;
     private IntentFilter filter;
     private Contact contact;
->>>>>>> origin/master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +45,13 @@ public class MessagingActivity extends AppCompatActivity implements View.OnClick
         ActiveAndroid.initialize(this, true);
         setContentView(R.layout.activity_messaging);
 
-<<<<<<< HEAD
-        contact = (Contact) Contact.load(Contact.class, this.getIntent().getLongExtra("contact_id", -1));
-=======
         this.contact = (Contact) Contact.load(Contact.class, this.getIntent().getLongExtra("contact_id", -1));
->>>>>>> origin/master
         this.messageListView = (ListView) this.findViewById(R.id.messaging_listview);
 
         this.update();
         ((Button) this.findViewById(R.id.messaging_send_button)).setOnClickListener(this);
         ((TextView) this.findViewById(R.id.messaging_contact_name)).setText(contact.name + " " + contact.surname);
 
-<<<<<<< HEAD
         my_message = (EditText) findViewById(R.id.messaging_body);
     }
 
@@ -82,7 +70,7 @@ public class MessagingActivity extends AppCompatActivity implements View.OnClick
         // Reset my message
         my_message.setText("");
         Toast.makeText(getApplicationContext(), "Sent SMS to " + phoneNumber.number, Toast.LENGTH_SHORT).show();
-=======
+
         filter = new IntentFilter();
         filter.addAction("android.provider.Telephony.SMS_RECEIVED");
         filter.setPriority(998);
@@ -109,7 +97,6 @@ public class MessagingActivity extends AppCompatActivity implements View.OnClick
     public void onPause(){
         super.onPause();
         this.unregisterReceiver(receiver);
->>>>>>> origin/master
     }
 
     @Override
