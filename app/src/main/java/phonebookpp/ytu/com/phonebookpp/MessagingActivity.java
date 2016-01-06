@@ -42,7 +42,7 @@ public class MessagingActivity extends AppCompatActivity implements View.OnClick
         ActiveAndroid.initialize(this, true);
         setContentView(R.layout.activity_messaging);
 
-        this.contact = (Contact) Contact.load(Contact.class, this.getIntent().getLongExtra("contact_id", -1));
+        this.contact = Contact.load(Contact.class, this.getIntent().getLongExtra("contact_id", -1));
         this.messageListView = (ListView) this.findViewById(R.id.messaging_listview);
 
         this.update();
@@ -50,6 +50,17 @@ public class MessagingActivity extends AppCompatActivity implements View.OnClick
         ((TextView) this.findViewById(R.id.messaging_contact_name)).setText(contact.name + " " + contact.surname);
 
         my_message = (EditText) findViewById(R.id.messaging_body);
+
+
+        filter = new IntentFilter();
+        filter.addAction("android.provider.Telephony.SMS_RECEIVED");
+        filter.setPriority(998);
+        receiver = new BroadcastReceiver(){
+            @Override
+            public void onReceive(Context context, Intent intent){
+                update();
+            }
+        };
     }
 
     public void sendSMS(String message){
@@ -67,17 +78,6 @@ public class MessagingActivity extends AppCompatActivity implements View.OnClick
         // Reset my message
         my_message.setText("");
         Toast.makeText(getApplicationContext(), "Sent SMS to " + phoneNumber.number, Toast.LENGTH_SHORT).show();
-
-        filter = new IntentFilter();
-        filter.addAction("android.provider.Telephony.SMS_RECEIVED");
-        filter.setPriority(998);
-
-        receiver = new BroadcastReceiver(){
-            @Override
-            public void onReceive(Context context, Intent intent){
-                update();
-            }
-        };
     }
 
     public void update(){
