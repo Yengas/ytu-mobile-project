@@ -21,9 +21,6 @@ import phonebookpp.ytu.com.phonebookpp.model.ContactNumber;
 import phonebookpp.ytu.com.phonebookpp.utils.ImportUtils;
 import phonebookpp.ytu.com.phonebookpp.utils.PPCommon;
 
-/**
- * Created by DARK on 1/3/2016.
- */
 public class PhoneStateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent){

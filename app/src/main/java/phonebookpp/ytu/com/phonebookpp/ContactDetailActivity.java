@@ -32,11 +32,9 @@ import phonebookpp.ytu.com.phonebookpp.model.Contact;
 import phonebookpp.ytu.com.phonebookpp.model.ContactInfoType;
 import phonebookpp.ytu.com.phonebookpp.model.ContactNumber;
 import phonebookpp.ytu.com.phonebookpp.model.Location;
+import phonebookpp.ytu.com.phonebookpp.utils.PPCommon;
 import phonebookpp.ytu.com.phonebookpp.view.model.ContactViewHolder;
 
-/**
- * Created by DARK on 1/1/3016.
- */
 public class ContactDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private ContactViewHolder contactDetails;
     private ListView callListView;
@@ -288,7 +286,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                 layout_number.addView(label_number);
                     final EditText input_number = new EditText(this);
                     input_number.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-                    input_number.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
+                    input_number.setFilters(new InputFilter[]{new InputFilter.LengthFilter(11)});
                 layout_number.addView(input_number);
             layout.addView(layout_number);
 
@@ -302,6 +300,7 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                             String number = input_number.getText().toString();
 
                             if (number.compareTo("") != 0) {
+                                number = PPCommon.sanitizeNumber(input_number.getText().toString());
                                 ContactNumber cnumber = new ContactNumber();
                                 cnumber.holder = contact;
                                 cnumber.number = number;

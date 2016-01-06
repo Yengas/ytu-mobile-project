@@ -12,9 +12,6 @@ import phonebookpp.ytu.com.phonebookpp.R;
 import phonebookpp.ytu.com.phonebookpp.model.Contact;
 import phonebookpp.ytu.com.phonebookpp.model.Location;
 
-/**
- * Created by DARK on 1/1/2016.
- */
 public class ContactViewHolder {
     private TextView fullNameView, mailView, callMissedView, newMessagesView, callsView;
     private LinearLayout contactLocationListLayout;

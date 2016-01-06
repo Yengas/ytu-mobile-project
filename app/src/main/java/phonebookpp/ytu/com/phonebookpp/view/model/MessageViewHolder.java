@@ -7,10 +7,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
-
-/**
- * Created by DARK on 1/2/2016.
- */
 public class MessageViewHolder {
     private TextView bodyView;
 

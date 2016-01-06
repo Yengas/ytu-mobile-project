@@ -9,9 +9,6 @@ import com.activeandroid.annotation.Table;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by DARK on 12/28/2015.
- */
 @Table(name = "ContactNumber")
 public class ContactNumber extends Model implements Serializable {
     @Column(name = "type")

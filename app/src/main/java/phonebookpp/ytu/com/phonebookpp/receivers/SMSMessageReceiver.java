@@ -16,9 +16,6 @@ import phonebookpp.ytu.com.phonebookpp.model.ContactNumber;
 import phonebookpp.ytu.com.phonebookpp.model.SMSMessage;
 import phonebookpp.ytu.com.phonebookpp.utils.PPCommon;
 
-/**
- * Created by DARK on 1/2/2016.
- */
 public class SMSMessageReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent){

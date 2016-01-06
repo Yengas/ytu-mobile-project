@@ -8,9 +8,6 @@ import com.activeandroid.annotation.Table;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by DARK on 12/28/2015.
- */
 @Table(name = "Call")
 public class Call extends Model implements Serializable {
     @Column(name = "outgoing")
