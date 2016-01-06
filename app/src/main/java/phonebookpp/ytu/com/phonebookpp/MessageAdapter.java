@@ -12,9 +12,6 @@ import java.util.List;
 import phonebookpp.ytu.com.phonebookpp.model.SMSMessage;
 import phonebookpp.ytu.com.phonebookpp.view.model.MessageViewHolder;
 
-/**
- * Created by DARK on 1/1/2016.
- */
 public class MessageAdapter extends BaseAdapter {
     private List<SMSMessage> messages = null;
     private Activity context;

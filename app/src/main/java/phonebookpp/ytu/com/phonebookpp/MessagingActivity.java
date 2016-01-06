@@ -27,9 +27,6 @@ import phonebookpp.ytu.com.phonebookpp.model.ContactInfoType;
 import phonebookpp.ytu.com.phonebookpp.model.ContactNumber;
 import phonebookpp.ytu.com.phonebookpp.model.SMSMessage;
 
-/**
- * Created by DARK on 1/1/7016.
- */
 public class MessagingActivity extends AppCompatActivity implements View.OnClickListener {
     private ListView messageListView;
     private MessageAdapter messagingAdapter;

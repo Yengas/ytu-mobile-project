@@ -10,9 +10,6 @@ import phonebookpp.ytu.com.phonebookpp.model.Call;
 import phonebookpp.ytu.com.phonebookpp.model.SMSMessage;
 import java.util.Date;
 
-/**
- * Created by DARK on 12/28/2015.
- */
 public class DatabaseFiller {
     public static void fill(){
         Contact yengas = new Contact(), daktar = new Contact();

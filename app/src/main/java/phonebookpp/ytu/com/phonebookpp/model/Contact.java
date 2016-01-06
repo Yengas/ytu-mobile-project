@@ -8,9 +8,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
-/**
- * Created by DARK on 12/28/2015.
- */
 @Table(name = "Contact")
 public class Contact extends Model implements Serializable {
     @Column(name = "name")

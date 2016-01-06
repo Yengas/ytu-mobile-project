@@ -20,9 +20,6 @@ import phonebookpp.ytu.com.phonebookpp.model.Call;
 import phonebookpp.ytu.com.phonebookpp.model.ContactNumber;
 import phonebookpp.ytu.com.phonebookpp.utils.PPCommon;
 
-/**
- * Created by DARK on 1/3/2016.
- */
 public class PhoneStateReceiver extends BroadcastReceiver {
     static class CallInfo{
         public final String number;

@@ -12,9 +12,6 @@ import java.util.List;
 import phonebookpp.ytu.com.phonebookpp.model.Call;
 import phonebookpp.ytu.com.phonebookpp.view.model.CallViewHolder;
 
-/**
- * Created by DARK on 1/1/2016.
- */
 public class CallAdapter extends BaseAdapter {
     private List<Call> calls = null;
     private Activity context;

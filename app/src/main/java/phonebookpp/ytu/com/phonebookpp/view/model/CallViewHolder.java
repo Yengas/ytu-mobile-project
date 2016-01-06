@@ -8,9 +8,6 @@ import java.text.SimpleDateFormat;
 import android.view.View;
 import android.widget.TextView;
 
-/**
- * Created by DARK on 1/1/2016.
- */
 public class CallViewHolder {
     private static final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     private TextView dateView, durationView, typeView;

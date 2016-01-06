@@ -7,9 +7,6 @@ import com.activeandroid.annotation.Table;
 
 import java.io.Serializable;
 
-/**
- * Created by DARK on 12/28/2015.
- */
 @Table(name = "Location")
 public class Location extends Model implements Serializable {
     @Column(name = "type")
