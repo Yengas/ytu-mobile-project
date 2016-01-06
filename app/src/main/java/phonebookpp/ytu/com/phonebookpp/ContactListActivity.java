@@ -24,6 +24,7 @@ import java.util.List;
 import phonebookpp.ytu.com.phonebookpp.model.Contact;
 import phonebookpp.ytu.com.phonebookpp.model.Location;
 import phonebookpp.ytu.com.phonebookpp.utils.DatabaseFiller;
+import phonebookpp.ytu.com.phonebookpp.utils.ImportUtils;
 
 public class ContactListActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,6 +41,9 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
         if(DatabaseFiller.filledBefore() == false){
             DatabaseFiller.fill();
         }
+
+        Toast.makeText(this, "Got contacts: " + ImportUtils.getLatestContact(this), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Got calls: " + ImportUtils.getLatestCall(this), Toast.LENGTH_SHORT).show();
     }
 
     public void update(){
