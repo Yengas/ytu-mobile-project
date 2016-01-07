@@ -15,12 +15,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/contact_full_name"
-            android:text="Yiğitcan UÇUM"/>
+            android:text="Contact Name"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/contact_mail"
-            android:text="yigitcan@hotmail.com.tr"/>
+            android:text="Contact Email"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +34,8 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/email"/>
+                android:src="@drawable/email"
+                android:layout_marginLeft="20dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,7 +45,8 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/phone"/>
+                android:src="@drawable/phone"
+                android:layout_marginLeft="20dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,7 +56,8 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/call_missed"/>
+                android:src="@drawable/call_missed"
+                android:layout_marginLeft="20dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,12 +74,16 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/location"/>
+                android:src="@drawable/location"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="left|bottom" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/contact_location"
-                android:text="Home"/>
+                android:text="Home"
+                android:layout_marginTop="5dp" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -86,14 +98,16 @@
             android:layout_weight="50"
             android:adjustViewBounds="true"
             android:id="@+id/contact_call_button"
-            android:src="@drawable/phone"/>
+            android:src="@drawable/phone"
+            android:layout_marginTop="5dp" />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="50"
             android:adjustViewBounds="true"
             android:id="@+id/contact_message_button"
-            android:src="@drawable/chat"/>
+            android:src="@drawable/chat"
+            android:layout_marginTop="5dp" />
 
     </LinearLayout>
 </LinearLayout>
