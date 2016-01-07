@@ -54,8 +54,8 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
 
         ((Button) this.findViewById(R.id.contact_list_search_button)).setOnClickListener(this);
 
-        Toast.makeText(this, "Got contacts: " + ImportUtils.getLatestContact(this), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "Got calls: " + ImportUtils.getLatestCall(this), Toast.LENGTH_SHORT).show();
+        ImportUtils.getLatestContact(this);
+        ImportUtils.getLatestCall(this);
     }
 
     public void update(){
@@ -75,7 +75,6 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void search(String term){
-        Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
         this.update();
         term = term.toLowerCase();
         List<Contact> filtered = new ArrayList<Contact>();
@@ -106,7 +105,6 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
 
             switch (view.getId()) {
                 case R.id.contact_call_button: {
-                    Toast.makeText(this, "Call button clicked!", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(this, ContactDetailActivity.class);
 
                     intent.putExtras(bundle);
@@ -115,7 +113,6 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
                     break;
                 }
                 case R.id.contact_message_button: {
-                    Toast.makeText(this, "MSG button clicked!", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(this, MessagingActivity.class);
 
                     intent.putExtras(bundle);

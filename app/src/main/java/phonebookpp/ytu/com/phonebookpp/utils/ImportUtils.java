@@ -129,7 +129,6 @@ public class ImportUtils {
         ActiveAndroid.endTransaction();
         cursor.close();
         prefs.edit().putString(ImportUtils.LAST_CALL_LOG, String.valueOf(lastId)).commit();
-        Toast.makeText(context, "LASTID CALLOG: " + lastId, Toast.LENGTH_SHORT).show();
         return total;
     }
 
@@ -155,7 +154,6 @@ public class ImportUtils {
         ActiveAndroid.setTransactionSuccessful();
         ActiveAndroid.endTransaction();
         cursor.close();
-        Toast.makeText(context, "LASTID CONTACT: " + lastId, Toast.LENGTH_SHORT).show();
         prefs.edit().putString(ImportUtils.LAST_CONTACT, String.valueOf(lastId)).commit();
         return total;
     }
