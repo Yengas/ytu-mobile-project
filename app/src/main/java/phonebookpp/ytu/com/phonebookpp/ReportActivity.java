@@ -79,6 +79,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
         View contactView = getLayoutInflater().inflate(R.layout.fragment_contact, null);
 
         textView.setText(title);
+        textView.setTextSize(24);
         textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         new ContactViewHolder(this, contactView, this).update(this, contact);
         layout.addView(textView);

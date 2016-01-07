@@ -12,72 +12,41 @@ import java.util.Date;
 
 public class DatabaseFiller {
     public static void fill(){
-        Contact yengas = new Contact(), daktar = new Contact();
+        Contact testContact = new Contact();
+        
+        testContact.name = "Tolga";
+        testContact.surname = "Ay";
+        testContact.email = "contact@gmail.com";
+        testContact.save();
 
-        yengas.name = "Yiğitcan";
-        yengas.surname = "UÇUM";
-        yengas.email = "yigitcan@hotmail.com.tr";
-        yengas.save();
+        Location contactWork = new Location();
 
-        daktar.name = "Tolga";
-        daktar.surname = "AY";
-        daktar.email = "daktar@gmail.com";
-        daktar.save();
+        contactWork.type = ContactInfoType.WORK;
+        contactWork.latitude = 42.0;
+        contactWork.longtitude = 0.43;
+        contactWork.holder = testContact;
+        contactWork.save();
 
-        Location yengasHome = new Location(), daktarWork = new Location();
+        ContactNumber contactHome = new ContactNumber();
+        contactHome.type = ContactInfoType.HOME;
+        contactHome.number = "+905362223344";
+        contactHome.holder = testContact;
+        contactHome.save();
 
-        yengasHome.type = ContactInfoType.HOME;
-        yengasHome.latitude = 73.0;
-        yengasHome.longtitude = 0.73;
-        yengasHome.holder = yengas;
-        yengasHome.save();
+        Call contactCall = new Call();
 
-        daktarWork.type = ContactInfoType.WORK;
-        daktarWork.latitude = 42.0;
-        daktarWork.longtitude = 0.43;
-        daktarWork.holder = daktar;
-        daktarWork.save();
+        contactCall.duration = 5;
+        contactCall.outgoing = false;
+        contactCall.date = new Date();
+        contactCall.addressee = contactHome;
+        contactCall.save();
 
-        ContactNumber yengasMobile = new ContactNumber(), daktarHome = new ContactNumber();
-
-        yengasMobile.type = ContactInfoType.MOBILE;
-        yengasMobile.number = "+907377377373";
-        yengasMobile.holder = yengas;
-        yengasMobile.save();
-
-        daktarHome.type = ContactInfoType.HOME;
-        daktarHome.number = "+904244244242";
-        daktarHome.holder = daktar;
-        daktarHome.save();
-
-        Call yengasCall = new Call(), daktarCall = new Call();
-
-        yengasCall.duration = 5;
-        yengasCall.outgoing = true;
-        yengasCall.date = new Date();
-        yengasCall.addressee = yengasMobile;
-        yengasCall.save();
-
-        daktarCall.duration = 5;
-        daktarCall.outgoing = false;
-        daktarCall.date = new Date();
-        daktarCall.addressee = daktarHome;
-        daktarCall.save();
-
-        SMSMessage yengasSMS = new SMSMessage(), daktarSMS = new SMSMessage();
-
-        yengasSMS.body = "Hello";
-        yengasSMS.outgoing = false;
-        yengasSMS.date = new Date();
-        yengasSMS.addressee = yengasMobile;
-        yengasSMS.save();
-
-        daktarSMS.body = "Hello";
-        daktarSMS.outgoing = true;
-        daktarSMS.date = new Date();
-        daktarSMS.addressee = daktarHome;
-        daktarSMS.save();
-
+        SMSMessage contactSMS = new SMSMessage();
+        contactSMS.body = "Hello";
+        contactSMS.outgoing = true;
+        contactSMS.date = new Date();
+        contactSMS.addressee = contactHome;
+        contactSMS.save();
     }
 
     public static boolean filledBefore(){
