@@ -70,7 +70,7 @@ public class MessagingActivity extends AppCompatActivity implements View.OnClick
         newSMS.addressee = phoneNumber;
         newSMS.date = new Date();
         newSMS.save();
-
+        update();
         android.telephony.SmsManager sms=android.telephony.SmsManager.getDefault();
 
         sms.sendTextMessage(phoneNumber.number, null, message, null, null);
