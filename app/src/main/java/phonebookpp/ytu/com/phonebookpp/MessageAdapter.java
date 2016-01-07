@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import phonebookpp.ytu.com.phonebookpp.model.SMSMessage;
@@ -19,6 +22,12 @@ public class MessageAdapter extends BaseAdapter {
     public MessageAdapter(Activity context, List<SMSMessage> messages){
         this.messages = messages;
         this.context = context;
+        Collections.sort(messages, new Comparator<SMSMessage>() {
+            @Override
+            public int compare(SMSMessage lhs, SMSMessage rhs) {
+                return lhs.date.compareTo(rhs.date);
+            }
+        });
     }
 
     @Override
