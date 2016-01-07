@@ -52,23 +52,23 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
 
     public void update(){
         layout.removeAllViews();
-        Cursor cursor = Cache.openDatabase().rawQuery("SELECT addressee, COUNT(id) as times FROM Call WHERE (completed = 1 OR duration <= 0) AND outgoing = 0 GROUP BY addressee ORDER BY times DESC LIMIT 1", null);
+        Cursor cursor = Cache.openDatabase().rawQuery("SELECT cn.holder, SUM(c.id) as total FROM Call as c INNER JOIN ContactNumber as cn ON cn.id = c.addressee WHERE (c.completed = 1 OR c.duration <= 0) AND c.outgoing = 0 GROUP BY cn.holder ORDER BY total DESC LIMIT 1", null);
 
         if(cursor.moveToFirst()) {
             this.add("Most missing calls", (Contact) Contact.load(Contact.class, cursor.getLong(0)));
         }
 
-        cursor = Cache.openDatabase().rawQuery("SELECT addressee, SUM(duration) as total FROM Call WHERE outgoing = 1 GROUP BY addressee ORDER BY total DESC LIMIT 1", null);
+        cursor = Cache.openDatabase().rawQuery("SELECT cn.holder, SUM(c.duration) as total FROM Call as c INNER JOIN ContactNumber as cn ON cn.id = c.addressee WHERE c.outgoing = 1 GROUP BY cn.holder ORDER BY total DESC LIMIT 1", null);
         if(cursor.moveToFirst()) {
             this.add("Most outgoing duration", (Contact) Contact.load(Contact.class, cursor.getLong(0)));
         }
 
-        cursor = Cache.openDatabase().rawQuery("SELECT addressee, SUM(duration) as total FROM Call WHERE outgoing = 0 GROUP BY addressee ORDER BY total DESC LIMIT 1", null);
+        cursor = Cache.openDatabase().rawQuery("SELECT cn.holder, SUM(c.duration) as total FROM Call as c INNER JOIN ContactNumber as cn ON cn.id = c.addressee WHERE c.outgoing = 0 GROUP BY cn.holder ORDER BY total DESC LIMIT 1", null);
         if(cursor.moveToFirst()) {
             this.add("Most incoming duration", (Contact) Contact.load(Contact.class, cursor.getLong(0)));
         }
 
-        cursor = Cache.openDatabase().rawQuery("SELECT addressee, SUM(duration) as total FROM Call GROUP BY addressee ORDER BY total DESC LIMIT 1", null);
+        cursor = Cache.openDatabase().rawQuery("SELECT cn.holder, SUM(c.duration) as total FROM Call as c INNER JOIN ContactNumber as cn ON cn.id = c.addressee GROUP BY cn.holder ORDER BY total DESC LIMIT 1", null);
         if(cursor.moveToFirst()) {
             this.add("Most duration", (Contact) Contact.load(Contact.class, cursor.getLong(0)));
         }

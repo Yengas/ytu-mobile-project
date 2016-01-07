@@ -45,10 +45,6 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if(DatabaseFiller.filledBefore() == false){
-            DatabaseFiller.fill();
-        }
-
         ((Button) this.findViewById(R.id.contact_list_search_button)).setOnClickListener(this);
 
         ImportUtils.getLatestContact(this);

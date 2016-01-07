@@ -26,18 +26,21 @@ import phonebookpp.ytu.com.phonebookpp.model.ContactNumber;
  * Created by DARK on 1/6/2016.
  */
 public class ImportUtils {
-    public static final String PREF_LAST_NAME = "LAST_IDS_PREF", LAST_CALL_LOG = "LAST_CALL_LOG_ID", LAST_CONTACT = "LAST_CONTACT_ID";
+    public static final String PREF_LAST_NAME = "LAST_ID_PREFX", LAST_CALL_LOG = "LAST_CALL_LOG_ID", LAST_CONTACT = "LAST_CONTACT_ID";
 
     public static class CallInfo{
         public final long id;
         public final String number;
         public final int type, duration;
+        public final Date date;
 
         public CallInfo(Cursor cursor){
             this.id = cursor.getLong(cursor.getColumnIndex(CallLog.Calls._ID));
             this.number = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
             this.duration = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.DURATION));
             this.type = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.TYPE));
+            this.date = new Date(cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DATE)));
+            Log.e("PPP_DEBUG", type + ": " + number);
         }
     }
 
@@ -76,7 +79,7 @@ public class ImportUtils {
             call.duration = info.duration;
             call.completed = info.type != CallLog.Calls.MISSED_TYPE && info.duration > 0;
             call.outgoing = info.type == CallLog.Calls.OUTGOING_TYPE;
-            call.date = new Date();
+            call.date = info.date;
             call.addressee = (ContactNumber) addressee;
             return call.save();
         }
