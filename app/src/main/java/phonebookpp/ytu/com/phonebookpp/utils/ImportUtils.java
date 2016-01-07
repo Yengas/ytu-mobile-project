@@ -22,9 +22,6 @@ import phonebookpp.ytu.com.phonebookpp.model.Contact;
 import phonebookpp.ytu.com.phonebookpp.model.ContactInfoType;
 import phonebookpp.ytu.com.phonebookpp.model.ContactNumber;
 
-/**
- * Created by DARK on 1/6/2016.
- */
 public class ImportUtils {
     public static final String PREF_LAST_NAME = "LAST_ID_PREFX", LAST_CALL_LOG = "LAST_CALL_LOG_ID", LAST_CONTACT = "LAST_CONTACT_ID";
 

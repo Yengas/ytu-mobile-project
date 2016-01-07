@@ -1,34 +1,22 @@
 package phonebookpp.ytu.com.phonebookpp;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Cache;
-import com.activeandroid.query.Select;
-
-import java.util.List;
 
 import phonebookpp.ytu.com.phonebookpp.model.Contact;
 import phonebookpp.ytu.com.phonebookpp.model.Location;
-import phonebookpp.ytu.com.phonebookpp.utils.DatabaseFiller;
-import phonebookpp.ytu.com.phonebookpp.utils.ImportUtils;
 import phonebookpp.ytu.com.phonebookpp.view.model.ContactViewHolder;
 
-/**
- * Created by DARK on 1/7/2016.
- */
 public class ReportActivity extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout layout;
 
