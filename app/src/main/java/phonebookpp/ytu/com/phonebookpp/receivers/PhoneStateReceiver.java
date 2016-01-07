@@ -34,13 +34,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                 @Override
                 public void onChange(boolean selfChange) {
                     super.onChange(selfChange);
-                    int count = ImportUtils.getLatestCall(context);
-
-                    if(count > 0)
-                        Toast.makeText(context, "Added some shit... Total: " + count, Toast.LENGTH_LONG).show();
-                    else
-                        Toast.makeText(context, "Couldn't find bitch...", Toast.LENGTH_LONG).show();
-
+                    ImportUtils.getLatestCall(context);
                     context.getContentResolver().unregisterContentObserver(this);
                 }
             });

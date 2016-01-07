@@ -56,25 +56,21 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
 
         if(cursor.moveToFirst()) {
             this.add("Most missing calls", (Contact) Contact.load(Contact.class, cursor.getLong(0)));
-            Toast.makeText(this, "Times: " + cursor.getInt(1), Toast.LENGTH_LONG).show();
         }
 
         cursor = Cache.openDatabase().rawQuery("SELECT addressee, SUM(duration) as total FROM Call WHERE outgoing = 1 GROUP BY addressee ORDER BY total DESC LIMIT 1", null);
         if(cursor.moveToFirst()) {
             this.add("Most outgoing duration", (Contact) Contact.load(Contact.class, cursor.getLong(0)));
-            Toast.makeText(this, "DurationO: " + cursor.getInt(1), Toast.LENGTH_LONG).show();
         }
 
         cursor = Cache.openDatabase().rawQuery("SELECT addressee, SUM(duration) as total FROM Call WHERE outgoing = 0 GROUP BY addressee ORDER BY total DESC LIMIT 1", null);
         if(cursor.moveToFirst()) {
             this.add("Most incoming duration", (Contact) Contact.load(Contact.class, cursor.getLong(0)));
-            Toast.makeText(this, "DurationI: " + cursor.getInt(1), Toast.LENGTH_LONG).show();
         }
 
         cursor = Cache.openDatabase().rawQuery("SELECT addressee, SUM(duration) as total FROM Call GROUP BY addressee ORDER BY total DESC LIMIT 1", null);
         if(cursor.moveToFirst()) {
             this.add("Most duration", (Contact) Contact.load(Contact.class, cursor.getLong(0)));
-            Toast.makeText(this, "DurationT: " + cursor.getInt(1), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -98,7 +94,6 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
 
             switch (view.getId()) {
                 case R.id.contact_call_button: {
-                    Toast.makeText(this, "Call button clicked!", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(this, ContactDetailActivity.class);
 
                     intent.putExtras(bundle);
@@ -107,7 +102,6 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
                     break;
                 }
                 case R.id.contact_message_button: {
-                    Toast.makeText(this, "MSG button clicked!", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(this, MessagingActivity.class);
 
                     intent.putExtras(bundle);

@@ -84,7 +84,6 @@ public class ContactDetailActivity extends AppCompatActivity implements View.OnC
                     break;
                 }
                 case R.id.contact_message_button: {
-                    Toast.makeText(this, "MSG button clicked!", Toast.LENGTH_LONG).show();
                     Bundle bundle = new Bundle();
                     Intent intent = new Intent(this, MessagingActivity.class);
 
