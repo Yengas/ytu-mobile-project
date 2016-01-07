@@ -41,6 +41,12 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
 
+        <activity
+            android:name=".ReportActivity"
+            android:label="@string/report_activity_title"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+
         <receiver android:name=".receivers.SMSMessageReceiver">
             <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"></action>

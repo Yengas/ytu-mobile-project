@@ -3,6 +3,7 @@ package phonebookpp.ytu.com.phonebookpp;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,7 @@ import android.text.InputFilter;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -17,17 +19,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Cache;
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import phonebookpp.ytu.com.phonebookpp.model.Contact;
+import phonebookpp.ytu.com.phonebookpp.model.ContactNumber;
 import phonebookpp.ytu.com.phonebookpp.model.Location;
 import phonebookpp.ytu.com.phonebookpp.utils.DatabaseFiller;
 import phonebookpp.ytu.com.phonebookpp.utils.ImportUtils;
 
 public class ContactListActivity extends AppCompatActivity implements View.OnClickListener {
-
+    private List<Contact> contacts;
     //TODO: check for missing call records, since we're registering to the content observer with the
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,19 +49,49 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
             DatabaseFiller.fill();
         }
 
+        ((Button) this.findViewById(R.id.contact_list_search_button)).setOnClickListener(this);
+
         Toast.makeText(this, "Got contacts: " + ImportUtils.getLatestContact(this), Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "Got calls: " + ImportUtils.getLatestCall(this), Toast.LENGTH_SHORT).show();
     }
 
     public void update(){
-        List<Contact> contacts =  new Select().from(Contact.class).execute();
+        contacts =  new Select().from(Contact.class).execute();
+    }
+
+    public void updateListView(){
         ((ListView) this.findViewById(R.id.contact_listview)).setAdapter(new ContactAdapter(this, this, contacts));
+    }
+
+    public boolean hasNumber(Contact contact, String term){
+        for(ContactNumber number : contact.getNumbers()){
+            if(number.number.contains(term))
+                return true;
+        }
+        return false;
+    }
+
+    public void search(String term){
+        Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
+        this.update();
+        term = term.toLowerCase();
+        List<Contact> filtered = new ArrayList<Contact>();
+
+        for(Contact contact : contacts){
+            if((contact.name + " " + contact.surname).toLowerCase().contains(term) || (term.matches("[0-9\\+]+") && hasNumber(contact, term)))
+                filtered.add(contact);
+        }
+
+        contacts = filtered;
+        this.updateListView();
+        Toast.makeText(this, contacts.size() <= 0 ? "No contact found." : ("Found contacts: " + contacts.size()), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onResume(){
         super.onResume();
         update();
+        updateListView();
     }
 
     @Override
@@ -91,6 +128,12 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
                 case R.id.contact_location: {
                     Toast.makeText(this, "Location clicked! " + location.latitude + "," + location.longtitude, Toast.LENGTH_LONG).show();
                     break;
+                }
+            }
+        }else{
+            switch(view.getId()){
+                case R.id.contact_list_search_button:{
+                    this.search(((EditText) this.findViewById(R.id.contact_list_search_text)).getText().toString());
                 }
             }
         }
@@ -173,6 +216,8 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
 
             alertDialog.show(); // Showing Alert Message
             return true;
+        }else if(id == R.id.list_menu_max){
+            startActivity(new Intent(this, ReportActivity.class));
         }
 
         return super.onOptionsItemSelected(item);

@@ -38,7 +38,7 @@ public class ContactViewHolder {
         this.contact = contact;
         contact.load();
 
-        fullNameView.setText(contact.name + " " + contact.surname);
+        fullNameView.setText(contact.name + (contact.surname == null ? "" : " " + contact.surname));
         mailView.setText(contact.email);
         callMissedView.setText(String.valueOf(contact.missingCalls));
         newMessagesView.setText(contact.sentMessages + "s/" + contact.recievedMessages + "r");

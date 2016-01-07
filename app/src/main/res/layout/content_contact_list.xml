@@ -12,10 +12,22 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_contact_list"
     tools:context=".ContactListActivity">
-
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name or Number"
+        android:layout_toLeftOf="@+id/contact_list_search_button"
+        android:id="@+id/contact_list_search_text"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:id="@+id/contact_list_search_button"
+        android:layout_alignParentRight="true"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/contact_list_search_button"
         android:id="@+id/contact_listview">
 
     </ListView>

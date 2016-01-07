@@ -7,4 +7,8 @@
         android:title="@string/list_menu_add"
         android:orderInCategory="1"
         app:showAsAction="never" />
+    <item android:id="@+id/list_menu_max"
+        android:title="@string/list_menu_max"
+        android:orderInCategory="2"
+        app:showAsAction="never" />
 </menu>

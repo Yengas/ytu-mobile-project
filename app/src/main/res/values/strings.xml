@@ -2,6 +2,7 @@
     <string name="app_name">PhonebookPP</string>
     <string name="list_activity_title">Contact List</string>
     <string name="list_menu_add">Add Contact</string>
+    <string name="list_menu_max">Report Maximums</string>
     <string name="detail_activity_title">Contact Details</string>
     <string name="detail_menu_edit">Edit Contact</string>
     <string name="detail_menu_add_number">Add Number</string>
@@ -12,4 +13,5 @@
     <string name="messaging_activity_title">SMS Messaging</string>
     <string name="messaging_placeholder">Your Message</string>
     <string name="messaging_send_button">Send</string>
+    <string name="report_activity_title">Maximums</string>
 </resources>
